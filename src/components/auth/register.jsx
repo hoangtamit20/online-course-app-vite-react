@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 function Register() {
-    const [fullName, setFullName] = useState('');
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rePassword, setRePassword] = useState('');
@@ -46,7 +46,7 @@ function Register() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                name: fullName,
+                name: name,
                 email: email,
                 password: password,
             }),
@@ -86,7 +86,7 @@ function Register() {
             <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formFullName">
                     <Form.Label>Full Name</Form.Label>
-                    <Form.Control type="text" placeholder="Enter Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+                    <Form.Control type="text" placeholder="Enter Full Name" value={fullName} onChange={(e) => setName(e.target.value)} />
                 </Form.Group>
 
                 <Form.Group controlId="formEmail">
