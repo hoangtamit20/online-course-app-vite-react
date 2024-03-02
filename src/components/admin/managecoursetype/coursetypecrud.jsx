@@ -202,8 +202,8 @@ function CourseTypeCRUD() {
                 <tbody>
                     {displayedData.data.items.map((courseType, index) => (
                         <tr key={courseType.id}>
-                            <td>{index + 1}</td>
-                            <td>{courseType.name}</td>
+                            <td>{(page - 1) * pageSize + index + 1}</td>
+                            <td className='text-start'>{courseType.name}</td>
                             <td>
                                 <Button variant="outline-primary" size='sm' onClick={() => getCourseType(courseType.id)}>Detail</Button>{' '}
                                 <Button
@@ -229,11 +229,20 @@ function CourseTypeCRUD() {
             <Pagination>
                 <Pagination.First onClick={() => setPage(1)} disabled={page === 1}>FirstPage</Pagination.First>
                 <Pagination.Prev onClick={() => setPage(old => Math.max(old - 1, 1))} disabled={page === 1} />
-                <Pagination.Item>{page}</Pagination.Item>
-                <Pagination.Next onClick={() => setPage(old => old + 1)} disabled={page === courseTypes.data.totalPages} />
+                {[...Array(Math.min(5, courseTypes.data.totalPages - page + 1))].map((_, i) => {
+                    const pageNumber = page + i;
+                    return (
+                        <Pagination.Item key={pageNumber} active={pageNumber === page} onClick={() => setPage(pageNumber)}>
+                            {pageNumber}
+                        </Pagination.Item>
+                    );
+                })}
+                <Pagination.Next onClick={() => setPage(old => Math.min(old + 1, courseTypes.data.totalPages))} disabled={page === courseTypes.data.totalPages} />
                 <Pagination.Last onClick={() => setPage(courseTypes.data.totalPages)} disabled={page === courseTypes.data.totalPages}>LastPage</Pagination.Last>
                 <Pagination.Item disabled className='font-monospace'><span className='text-muted fw-lighter'>Total items : ({courseTypes.data.totalItems} items)</span></Pagination.Item>
             </Pagination>
+
+
 
 
             {/* render create course type */}

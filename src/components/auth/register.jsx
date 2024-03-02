@@ -67,7 +67,7 @@ function Register() {
     return (
         <div>
             {errors.length > 0 && (
-                <div className='alert alert-danger'>
+                <div className='alert alert-danger text-start'>
                     <ul>
                         {errors.map((error, index) => (
                             <li key={index}>{error}</li>
@@ -76,7 +76,7 @@ function Register() {
                 </div>
             )}
             {successMessage && (
-                <div className='alert alert-info'>
+                <div className='alert alert-info text-start'>
                     <ul>
                         <li>{successMessage}</li>
                     </ul>
@@ -86,7 +86,7 @@ function Register() {
             <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formFullName">
                     <Form.Label>Full Name</Form.Label>
-                    <Form.Control type="text" placeholder="Enter Full Name" value={fullName} onChange={(e) => setName(e.target.value)} />
+                    <Form.Control type="text" placeholder="Enter Full Name" value={name} onChange={(e) => setName(e.target.value)} />
                 </Form.Group>
 
                 <Form.Group controlId="formEmail">
@@ -106,7 +106,7 @@ function Register() {
 
                 <Button className='mt-3' variant="outline-primary" type="submit">
                     Register
-                </Button>
+                </Button>{' '}
 
                 <Link to="/login" >Back to login</Link>
             </Form>
