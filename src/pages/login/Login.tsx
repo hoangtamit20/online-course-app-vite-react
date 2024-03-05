@@ -8,7 +8,8 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Container, Form } from "react-bootstrap";
-import { TfiEmail } from "react-icons/tfi";
+import KeyIcon from '@mui/icons-material/Key';
+import EmailIcon from '@mui/icons-material/Email';
 import { Link, useNavigate } from "react-router-dom";
 import { isTokenValid } from "../../services/apiservice";
 import styles from "./Login.module.scss";
@@ -109,17 +110,17 @@ function Login() {
     };
 
     return (
-        <Box className={styles.c1}>
+        <Box className={styles.container}>
             <Box className={styles.loginWrapper}>
                 <Box className={styles.loginContainer}>
                     {errors.length > 0 && (
-                        <div className="alert alert-danger">
+                        <Box className="alert alert-danger">
                             <ul>
                                 {errors.map((error, index) => (
                                     <li key={index}>{error}</li>
                                 ))}
                             </ul>
-                        </div>
+                        </Box>
                     )}
                     <Box className={styles.formTitle}>Login</Box>
                     <Form
@@ -137,7 +138,7 @@ function Login() {
                                 placeholder="Email"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
-                                label={<span>{<TfiEmail />} Email:</span>}
+                                label={<span>{<EmailIcon />} Email:</span>}
                             />
                             <Form.Control.Feedback type="invalid">
                                 Please provide a username.
@@ -151,7 +152,7 @@ function Login() {
                                 placeholder="Password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                label={<span>{<TfiEmail />} Password</span>}
+                                label={<span>{<KeyIcon />} Password:</span>}
                             />
 
                             {/* <Form.Label>Password</Form.Label> */}
