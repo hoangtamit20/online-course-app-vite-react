@@ -1,7 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
 import { Toast, ToastContainer } from "react-bootstrap";
-import { QueryClient, QueryClientProvider } from "react-query";
 import {
     Navigate,
     Route,
@@ -10,13 +9,15 @@ import {
     useLocation,
 } from "react-router-dom";
 import CourseTypeCRUD from "./components/admin/managecoursetype/coursetypecrud";
-import HomePage from "./pages/home/HomePage";
 import Login from "./pages/login/Login";
 import RegisterResult from "./pages/register-result/RegisterResult";
 import Register from "./pages/register/Register";
 import ResetPasswordConfirm from "./pages/reset-password-confirm/ResetPasswordConfirm";
 import ResetPassword from "./pages/reset-password/ResetPassword";
 import { checkIfUserIsAdmin } from "./services/roleservice";
+import HomePage from "./pages/homePage/HomePage";
+import SearchAppBar from "./pages/homePage/Navbar/SearchAppBar"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // import your components here
 const queryClient = new QueryClient();
@@ -45,6 +46,8 @@ function App() {
         <QueryClientProvider client={queryClient}>
             <Router>
                 <Routes>
+                    <Route path="/test" element={<SearchAppBar />} />
+                    <Route path="/homepage" element={<HomePage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/reset-password" element={<ResetPassword />} />

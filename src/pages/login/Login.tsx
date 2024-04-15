@@ -8,12 +8,20 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Container, Form } from "react-bootstrap";
-import KeyIcon from '@mui/icons-material/Key';
-import EmailIcon from '@mui/icons-material/Email';
+import KeyIcon from "@mui/icons-material/Key";
+import EmailIcon from "@mui/icons-material/Email";
 import { Link, useNavigate } from "react-router-dom";
 import { isTokenValid } from "../../services/apiservice";
 import styles from "./Login.module.scss";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { httpClient } from "../../utils/AxiosHttpClient";
+
+interface ILogin {
+    email: string;
+    password: string;
+}
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -21,6 +29,21 @@ function Login() {
     const [errors, setErrors] = useState([]);
     const [validated, setValidated] = useState(false);
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
+
+    const loginWithEmailPassword = async (payload: ILogin) => {
+        const reponse = await httpClient.post(`/api/v1/auth/login`, payload);
+        return reponse.data;
+    };
+
+    const { mutateAsync } = useMutation({
+        mutationFn: loginWithEmailPassword,
+        onSuccess: () => {
+            // Invalidate and refetch
+            queryClient.invalidateQueries({ queryKey: ["login"] });
+        },
+        mutationKey: ["login"],
+    });
 
     useEffect(() => {
         const accessToken = localStorage.getItem("accessToken");
@@ -47,21 +70,26 @@ function Login() {
             event.preventDefault();
             event.stopPropagation();
         } else {
-            const response = await fetch(
-                `${import.meta.env.VITE_APP_API_BASE_URL}/api/v1/auth/login`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        email: username,
-                        password: password,
-                    }),
-                }
-            );
+            // const response = await fetch(
+            //     `${import.meta.env.VITE_APP_API_BASE_URL}/api/v1/auth/login`,
+            //     {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //         },
+            //         body: JSON.stringify({
+            //             email: username,
+            //             password: password,
+            //         }),
+            //     }
+            // );
 
-            const data = await response.json();
+            const data = await mutateAsync({
+                email: username,
+                password: password,
+            });
+
+            console.log("data:", data);
 
             if (data.isSuccess) {
                 localStorage.setItem("accessToken", data.data.accessToken);
