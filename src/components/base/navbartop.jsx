@@ -19,15 +19,16 @@ function NavBarTop() {
     const isLogined = useLoginStatus();
 
     useEffect(() => {
-        const accessToken = localStorage.getItem('accessToken');
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl(`${import.meta.env.VITE_APP_API_BASE_URL}/chatHub`, {
-                accessTokenFactory: () => accessToken
-            })
-            .withAutomaticReconnect()
-            .build();
-        setHubConnection(connection);
-    }, []);
+        if (isLogined) {
+            const accessToken = localStorage.getItem('accessToken');
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl(`${import.meta.env.VITE_APP_API_BASE_URL}/chatHub?access_token=${accessToken}`)
+                .withAutomaticReconnect()
+                .build();
+            setHubConnection(connection);
+        }
+    }, [isLogined]);
+
 
     useEffect(() => {
         if (hubConnection) {

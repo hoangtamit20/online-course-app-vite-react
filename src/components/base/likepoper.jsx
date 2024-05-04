@@ -4,7 +4,7 @@ import { Bell, Heart } from 'react-bootstrap-icons';
 
 const LikePoper = () => {
     const [showNotifications, setShowNotifications] = useState(false);
-    const [notificationCount, setNotificationCount] = useState(1); // Số lượng thông báo mặc định
+    const [notificationCount, setNotificationCount] = useState(0);
     const [clickedPosition, setClickedPosition] = useState({ x: 0, y: 0 });
     const [listPosition, setListPosition] = useState({ top: 0, right: 0 });
 
@@ -12,7 +12,7 @@ const LikePoper = () => {
         const rect = event.target.getBoundingClientRect();
         setClickedPosition({ x: rect.left, y: rect.bottom + 5 });
         setShowNotifications(!showNotifications);
-        setNotificationCount(0); // Khi mở danh sách thông báo, đặt số lượng thông báo về 0
+        setNotificationCount(0);
     };
 
     useEffect(() => {
