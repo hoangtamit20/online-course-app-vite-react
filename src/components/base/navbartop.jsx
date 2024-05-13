@@ -15,6 +15,7 @@ function NavBarTop() {
     const [notificationToastMessage, setNotificationToastMessage] = useState('');
     const [messageToastMessage, setMessageToastMessage] = useState('');
     const [hubConnection, setHubConnection] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const isLogined = useLoginStatus();
 
@@ -28,6 +29,13 @@ function NavBarTop() {
             setHubConnection(connection);
         }
     }, [isLogined]);
+
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        // Điều hướng đến trang kết quả tìm kiếm
+        window.location.href = `/search?q=${searchQuery}`;
+    };
 
 
     useEffect(() => {
@@ -99,11 +107,13 @@ function NavBarTop() {
                     </div>
 
                     <div className="d-flex align-items-center mx-3">
-                        <Form className="d-flex me-2">
+                        <Form className="d-flex me-2" onSubmit={handleSearch}>
                             <Form.Control
                                 type="search"
                                 placeholder="Search"
                                 aria-label="Search"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
                             />
                             <Button variant="outline-success">Search</Button>
                         </Form>

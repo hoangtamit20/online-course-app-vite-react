@@ -11,6 +11,7 @@ import CourseTypeCRUD from './components/admin/managecoursetype/coursetypecrud';
 import { Toast, ToastContainer } from 'react-bootstrap';
 import { checkIfUserIsAdmin } from './services/roleservice';
 import NavBarTop from './components/base/navbartop';
+import SearchResultsPage from './components/carousel/searchresultpage';
 // import your components here
 const queryClient = new QueryClient();
 
@@ -47,6 +48,7 @@ function App() {
         <Router>
           <NavBarWrapper />
           <Routes>
+            <Route path="/search" element={<SearchResultsPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/reset-password" element={<ResetPassword />} />
