@@ -8,11 +8,11 @@ import { useEffect } from "react";
 import { httpClient } from "../../utils/AxiosHttpClient";
 
 const HomePage = () => {
-    useEffect(() => {
-        httpClient.get("/api/v1/course/get-alls").then((res) => {
-            console.log("response:", res.data);
-        });
-    }, []);
+    // useEffect(() => {
+    //     httpClient.get("/api/v1/course/get-alls").then((res) => {
+    //         console.log("response:", res.data);
+    //     });
+    // }, []);
     return (
         <>
             <Navbar />

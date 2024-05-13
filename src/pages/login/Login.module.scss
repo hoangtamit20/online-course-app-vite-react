@@ -1,10 +1,16 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 .container {
     background-image: url("/public/blue-background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top;
 
-    .loginWrapper {
+    .loginContainer {
         z-index: 15;
         display: flex;
         align-items: center;
@@ -13,7 +19,7 @@
         width: 450px;
         margin: auto;
 
-        .loginContainer {
+        .loginWrapper {
             position: relative;
             padding-right: 1.5rem;
             padding-left: 1.5rem;

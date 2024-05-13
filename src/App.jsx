@@ -16,8 +16,10 @@ import ResetPasswordConfirm from "./pages/reset-password-confirm/ResetPasswordCo
 import ResetPassword from "./pages/reset-password/ResetPassword";
 import { checkIfUserIsAdmin } from "./services/roleservice";
 import HomePage from "./pages/homePage/HomePage";
-import SearchAppBar from "./pages/homePage/Navbar/SearchAppBar"
+import SearchAppBar from "./pages/homePage/Navbar/SearchAppBar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import "swiper/css";
+import "swiper/css/virtual";
 
 // import your components here
 const queryClient = new QueryClient();

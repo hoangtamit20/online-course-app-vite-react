@@ -64,25 +64,12 @@ function Login() {
 
     const handleLoginWithEmailAndPassword = async (event) => {
         event.preventDefault();
-        const form = event.currentTarget;
+        const form = event.currentTarget;   
         if (form.checkValidity() === false) {
             console.log("Da click");
             event.preventDefault();
             event.stopPropagation();
         } else {
-            // const response = await fetch(
-            //     `${import.meta.env.VITE_APP_API_BASE_URL}/api/v1/auth/login`,
-            //     {
-            //         method: "POST",
-            //         headers: {
-            //             "Content-Type": "application/json",
-            //         },
-            //         body: JSON.stringify({
-            //             email: username,
-            //             password: password,
-            //         }),
-            //     }
-            // );
 
             const data = await mutateAsync({
                 email: username,
@@ -139,8 +126,8 @@ function Login() {
 
     return (
         <Box className={styles.container}>
-            <Box className={styles.loginWrapper}>
-                <Box className={styles.loginContainer}>
+            <Box className={styles.loginContainer}>
+                <Box className={styles.loginWrapper}>
                     {errors.length > 0 && (
                         <Box className="alert alert-danger">
                             <ul>
