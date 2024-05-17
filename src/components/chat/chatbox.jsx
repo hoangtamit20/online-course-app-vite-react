@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Card, Col, Form, Image, Row } from "react-bootstrap";
 import Picker from '@emoji-mart/react';
 import data from '@emoji-mart/data';
@@ -6,7 +6,8 @@ import data from '@emoji-mart/data';
 
 
 
-const ChatBox = ({ userId, show, handleClose }) => {
+const ChatBox = ({ data, userId, show, handleClose }) => {
+    const [chatData, setChatData] = useState(data);
     const [chatboxOpen, setChatboxOpen] = useState(true);
     const [chatboxMinimized, setChatboxMinimized] = useState(false);
     const [displayEmojiTable, setDisplayEmojiTable] = useState(false);
@@ -15,6 +16,10 @@ const ChatBox = ({ userId, show, handleClose }) => {
     const [textValue, setTextValue] = useState('');
     const [filePreview, setFilePreview] = useState(null);
     const fileInputRef = useRef(null);
+
+    useEffect(() => {
+        setChatData(data);
+    }, [data]);
 
     // Function to handle sending message
     const sendMessage = () => {
@@ -88,7 +93,7 @@ const ChatBox = ({ userId, show, handleClose }) => {
                     <div className="chatbox-container" style={{ maxWidth: "400px", maxHeight: "600px" }}>
                         <Card className='p-0'>
                             <Card.Header className="d-flex justify-content-between align-items-center p-1" style={{ borderTop: "4px solid #ffa900" }}>
-                                <h5 className="mb-0">Chat messages</h5>
+                                <h5 className="mb-0">{console.log(chatData)}</h5>
                                 <div className="d-flex flex-row align-items-center">
                                     <span className="badge bg-warning me-3">20</span>
                                     <button type="button" className="btn btn-outline-secondary me-3" onClick={handleMinimizeChatbox}>

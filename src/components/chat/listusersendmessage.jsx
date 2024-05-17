@@ -3,8 +3,8 @@ import axios from 'axios';
 import { Button, ListGroup, ListGroupItem, Image, Offcanvas } from 'react-bootstrap';
 import ChatBox from './chatbox';
 
-
 const RightMenu = () => {
+    const [chatData, setChatData] = useState(null); 
     const [users, setUsers] = useState([]);
     const [show, setShow] = useState(false);
     const [activeChatBoxes, setActiveChatBoxes] = useState({});
@@ -19,7 +19,6 @@ const RightMenu = () => {
             }
         })
             .then(response => {
-                console.log(response.data.data);
                 setUsers(response.data.data);
             })
             .catch(error => {
@@ -41,9 +40,23 @@ const RightMenu = () => {
                 ...prevState,
                 [userId]: true
             }));
+
+            // Call API to get conversation chats
+            axios.post(`${import.meta.env.VITE_APP_API_BASE_URL}/api/v1/chats/getconversationchats`, { userId }, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            })
+            .then(response => {
+                // Handle response if needed
+                console.log(response.data);
+                setChatData(response.data);
+            })
+            .catch(error => {
+                console.error('Error sending message:', error);
+            });
         }
     };
-
 
     const handleChatBoxClose = (userId) => {
         setChatBoxes(prevState => ({
@@ -108,7 +121,7 @@ const RightMenu = () => {
             </Offcanvas>
             <div className='d-flex gap-1 align-items-end' style={{ position: 'fixed', bottom: '0', right: '15px' }}>
                 {Object.keys(chatBoxes).map(userId => (
-                    chatBoxes[userId] && <ChatBox key={userId} userId={userId} show={activeChatBoxes[userId]} handleClose={handleChatBoxClose} style={positions[userId]} />
+                    chatBoxes[userId] && <ChatBox data={chatData}  key={userId} userId={userId} show={activeChatBoxes[userId]} handleClose={handleChatBoxClose} style={positions[userId]} />
                 ))}
             </div>
         </>
