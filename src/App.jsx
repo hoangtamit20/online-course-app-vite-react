@@ -12,6 +12,8 @@ import { Toast, ToastContainer } from 'react-bootstrap';
 import { checkIfUserIsAdmin } from './services/roleservice';
 import NavBarTop from './components/base/navbartop';
 import SearchResultsPage from './components/carousel/searchresultpage';
+import PaymentResult from './payments/paymentresult';
+import { ErrorPopupProvider } from './services/errorpopupcontext';
 // import your components here
 const queryClient = new QueryClient();
 
@@ -45,33 +47,36 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <Router>
-          <NavBarWrapper />
-          <Routes>
-            <Route path="/search" element={<SearchResultsPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/reset-password-confirm" element={<ResetPasswordConfirm />} />
-            <Route path="/register-result" element={<RegisterResult />} />
-            <Route path="/" element={<HomePage />} />
-            {/* Route for admin */}
-            <Route path="/admin/manage-course-type/course-type-crud" element={
-              <ProtectedRoute showToast={setShowToast}>
-                <CourseTypeCRUD />
-              </ProtectedRoute>
-            } />
-          </Routes>
-        </Router>
+        <ErrorPopupProvider>
+          <Router>
+            <NavBarWrapper />
+            <Routes>
+              <Route path="/payments/return" element={<PaymentResult />} />
+              <Route path="/search" element={<SearchResultsPage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/reset-password-confirm" element={<ResetPasswordConfirm />} />
+              <Route path="/register-result" element={<RegisterResult />} />
+              <Route path="/" element={<HomePage />} />
+              {/* Route for admin */}
+              <Route path="/admin/manage-course-type/course-type-crud" element={
+                <ProtectedRoute showToast={setShowToast}>
+                  <CourseTypeCRUD />
+                </ProtectedRoute>
+              } />
+            </Routes>
+          </Router>
 
-        <ToastContainer position="top-end" className='mt-3 me-3'>
-          <Toast show={showToast} onClose={() => setShowToast(false)} delay={5000} autohide className="bg-danger">
-            <Toast.Header>
-              <strong className="me-auto">Access Denied</strong>
-            </Toast.Header>
-            <Toast.Body>You don't have permission to access this page.</Toast.Body>
-          </Toast>
-        </ToastContainer>
+          <ToastContainer position="top-end" className='mt-3 me-3'>
+            <Toast show={showToast} onClose={() => setShowToast(false)} delay={5000} autohide className="bg-danger">
+              <Toast.Header>
+                <strong className="me-auto">Access Denied</strong>
+              </Toast.Header>
+              <Toast.Body>You don't have permission to access this page.</Toast.Body>
+            </Toast>
+          </ToastContainer>
+        </ErrorPopupProvider>
       </QueryClientProvider>
     </>
   );

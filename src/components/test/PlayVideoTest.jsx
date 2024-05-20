@@ -7,31 +7,6 @@ const PlayVideoTest = () => {
     const [courseData, setCourseData] = useState(null);
     const [subtitleUrl, setSubtitleUrl] = useState(null);
 
-
-
-
-    const [isCoursePurchased, setIsCoursePurchased] = useState(null);
-
-    useEffect(() => {
-        const courseId = // thay bằng courseid từ
-
-        axios.get(`/api/v1/course/checkpurchased/${courseId}`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`, // Sử dụng token từ localStorage
-            },
-        })
-            .then((response) => {
-                setIsCoursePurchased(response.data.IsCoursePurchased);
-            })
-            .catch((error) => {
-                console.error('Có lỗi xảy ra:', error);
-            });
-    }, []);
-
-
-
-
-
     useEffect(() => {
         const fetchCourseData = async () => {
             try {

@@ -20,13 +20,15 @@ const ListCourse = () => {
     }, []);
 
     return (
-        <Carousel>
-            {courses.slice(0, 4).map((course, index) => (
-                <Carousel.Item key={index}>
-                    <CourseItem course={course} />
-                </Carousel.Item>
-            ))}
-        </Carousel>
+        <>
+            {courses && <Carousel>
+                {courses.slice(0, 4).map((course, index) => (
+                    <Carousel.Item key={index}>
+                        <CourseItem course={course} />
+                    </Carousel.Item>
+                ))}
+            </Carousel>}
+        </>
     );
 };
 

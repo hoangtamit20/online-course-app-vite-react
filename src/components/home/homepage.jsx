@@ -5,6 +5,7 @@ import { useLoginStatus } from '../../services/authservice';
 import ListCourse from '../carousel/listcourse';
 import PlayVideoTest from '../test/PlayVideoTest';
 import MyCart from '../../cart/mycart';
+import CreateCourse from '../publisher/courses/createcourse';
 
 function HomePage() {
     const accessToken = localStorage.getItem('accessToken');
@@ -16,10 +17,12 @@ function HomePage() {
 
         <div>
             {isLogined && <RightMenu />}
-            <ListCourse />
+            {/* <ListCourse /> */}
 
             {/* <PlayVideoTest /> */}
-            <MyCart />
+            {/* <MyCart /> */}
+
+            {/* <CreateCourse /> */}
         </div>
 
         // if user not login -> call api get alls -> show list course
