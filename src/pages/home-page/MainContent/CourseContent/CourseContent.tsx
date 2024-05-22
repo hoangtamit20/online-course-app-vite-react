@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import styles from "./CourseContent.module.scss";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
+import { Link } from "react-router-dom";
 
 interface ICourse {
     id: number;
@@ -20,14 +21,19 @@ const CourseContent = ({ course }: { course: ICourse }) => {
     return (
         <Box className={styles.content}>
             <Box className={styles.wrapper}>
-                <img className={styles.pic} src={course.thumbnail} />
+                <Link
+                    className={styles.courseLink}
+                    to={`/course-detail/${course.id}`}
+                >
+                    <img className={styles.pic} src={course.thumbnail} />
+                </Link>
                 <Box className={styles.body}>
-                    <a
+                    <Link
                         className={styles.courseLink}
-                        href="/course/the-complete-web-development-bootcamp/"
+                        to={`/course-detail/${course.id}`}
                     >
                         {course.courseName}
-                    </a>
+                    </Link>
                     <p className={styles.title}>{course.creatorName}</p>
 
                     <div className={styles.priceWrapper}>

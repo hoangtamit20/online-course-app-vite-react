@@ -8,7 +8,10 @@ import styles from "./AllCourseFillterArea.module.scss";
 import CheckboxList, { IAllTopic } from "./CourseTopicList";
 
 interface AllCourseFillterAreaProps {
-    onGetAllCourseFilterParamsChange: (name: string, value: string) => void;
+    onGetAllCourseFilterParamsChange: (
+        name: string,
+        value: string | boolean
+    ) => void;
     getAllCourseFilterForm: GetAllCourseFilterForm;
 }
 
@@ -90,12 +93,18 @@ const AllCourseFillterArea = ({
                         <FormControlLabel
                             control={
                                 <Checkbox
-                                    defaultChecked
                                     sx={{
                                         color: pink[800],
                                         "&.Mui-checked": {
                                             color: pink[600],
                                         },
+                                    }}
+                                    checked={getAllCourseFilterForm.isFree}
+                                    onChange={(e) => {
+                                        onGetAllCourseFilterParamsChange(
+                                            "isFree",
+                                            e.target.checked
+                                        );
                                     }}
                                 />
                             }

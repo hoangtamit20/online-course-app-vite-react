@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -120,7 +120,15 @@ const MainContent = () => {
                         <h2 className={styles.title}>All Courses</h2>
 
                         <div className={styles.courseWrapper}>
-                            {allCourse?.data.items.length < 4 ? (
+                            {allCourse?.data.items.length === 0 ? (
+                                <Typography
+                                    className={
+                                        styles.noCourseAvailableContainer
+                                    }
+                                >
+                                    No course available
+                                </Typography>
+                            ) : allCourse?.data.items.length < 4 ? (
                                 <Box
                                     className={
                                         styles.courseWrapperWhenLessThan4
@@ -130,7 +138,7 @@ const MainContent = () => {
                                         <Box className={styles.courseContent}>
                                             <CourseContent
                                                 course={item}
-                                                key={allCourse.id}
+                                                key={item.id}
                                             />
                                         </Box>
                                     ))}
@@ -154,7 +162,7 @@ const MainContent = () => {
                                             <SwiperSlide virtualIndex={i}>
                                                 <CourseContent
                                                     course={item}
-                                                    key={allCourse.id}
+                                                    key={item.id}
                                                 />
                                             </SwiperSlide>
                                         ))}
@@ -181,7 +189,7 @@ const MainContent = () => {
                                             >
                                                 <CourseContent
                                                     course={item}
-                                                    key={allCourse.id}
+                                                    key={item.id}
                                                 />
                                             </Box>
                                         ))}
@@ -205,7 +213,7 @@ const MainContent = () => {
                                             <SwiperSlide virtualIndex={i}>
                                                 <CourseContent
                                                     course={item}
-                                                    key={allCourse.id}
+                                                    key={item.id}
                                                 />
                                             </SwiperSlide>
                                         ))}

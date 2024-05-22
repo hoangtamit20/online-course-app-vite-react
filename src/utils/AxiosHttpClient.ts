@@ -9,11 +9,13 @@ type HttpClientRawAxiosRequestConfig<TBody = any> =
     RawAxiosRequestConfig<TBody> & {
         // cacheInServer: boolean; // not available yet
         isDisplayFullScreenLoading?: boolean;
+        includeAccessToken?: boolean;
     };
 
 type HttpClientInternalAxiosRequestConfig = InternalAxiosRequestConfig & {
     // cacheInServer: boolean; // not available yet
     isDisplayFullScreenLoading?: boolean;
+    includeAccessToken?: boolean;
 };
 
 const setupConfigForHttpInstance = (instance: AxiosInstance) => {
@@ -24,10 +26,16 @@ const setupConfigForHttpInstance = (instance: AxiosInstance) => {
 
     instance.interceptors.request.use(
         function (config: HttpClientInternalAxiosRequestConfig) {
-            // Do something before request is sent
-            const accessToken = localStorage.getItem("accessToken");
-            console.log("accessToken here:", accessToken);
-            config.headers.Authorization = `Bearer ${accessToken}`;
+            if (
+                typeof config.includeAccessToken !== "boolean" ||
+                config.includeAccessToken === true
+            ) {
+                // Do something before request is sent
+                const accessToken = localStorage.getItem("accessToken");
+                console.log("accessToken here:", accessToken);
+                config.headers.Authorization = `Bearer ${accessToken}`;
+            }
+
             return config;
         },
         function (error: unknown) {

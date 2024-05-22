@@ -5,9 +5,12 @@
 }
 
 .container {
+    // margin: 0 !important;
+
+    margin-top: auto !important;
     width: 100%;
-    margin: 0 !important;
-    position: relative;
+    // position: fixed;
+    // bottom: 0;
     .wrapper {
         padding: 20px;
         display: flex;
@@ -34,7 +37,7 @@
             .wrapperSourceLink {
                 padding: 7px 25px;
                 border: 2px solid #fff;
-               
+
                 .iconLanguage {
                     color: #fff;
                     font-size: 21px;

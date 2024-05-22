@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
-import Footer from "./Footer/Footer";
+import Footer from "../../components/Footer/Footer";
 import HomeSlogan from "./HomeSlogan/HomeSlogan";
 import MainContent from "./MainContent/MainContent";
-import Navbar from "./Navbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import Story from "./Story/Story";
 import { useEffect } from "react";
 import { httpClient } from "../../utils/AxiosHttpClient";
@@ -15,11 +15,11 @@ const HomePage = () => {
     // }, []);
     return (
         <>
-            <Navbar />
+            {/* <Navbar /> */}
             <HomeSlogan />
             <MainContent />
             <Story />
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 };
