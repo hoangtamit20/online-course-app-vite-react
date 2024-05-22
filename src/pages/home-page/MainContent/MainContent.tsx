@@ -134,14 +134,18 @@ const MainContent = () => {
                                         styles.courseWrapperWhenLessThan4
                                     }
                                 >
-                                    {allCourse?.data.items.map((item, i) => (
-                                        <Box className={styles.courseContent}>
-                                            <CourseContent
-                                                course={item}
-                                                key={item.id}
-                                            />
-                                        </Box>
-                                    ))}
+                                    {allCourse?.data.items
+                                        // .slice(0, 3)
+                                        .map((item, i) => (
+                                            <Box
+                                                className={styles.courseContent}
+                                            >
+                                                <CourseContent
+                                                    course={item}
+                                                    key={item.id}
+                                                />
+                                            </Box>
+                                        ))}
                                 </Box>
                             ) : (
                                 <Swiper

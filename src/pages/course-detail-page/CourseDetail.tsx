@@ -20,11 +20,33 @@ const CourseDetail = (props: Props) => {
     const videoRef = useRef<null | HTMLVideoElement>(null);
     const [isPurchaseInProgress, setIsPurchaseInProgress] = useState(false);
 
-    const getCourseDetail = async () => {
-        const reponse = await httpClient.get(
-            `/api/v1/course/get-course/${params.id}`
-        );
+    const getAllCourse = async () => {
+        const reponse = await httpClient.get(`/api/v1/course/get-alls`);
         return reponse.data;
+    };
+
+    const { data: allCourse } = useQuery({
+        queryKey: ["all-course"],
+        queryFn: getAllCourse,
+    });
+
+    const getCourseDetail = async () => {
+        const [courseResponse, getAllCourseResponse] = await Promise.all([
+            httpClient.get(`/api/v1/course/get-course/${params.id}`),
+            httpClient.get(`/api/v1/course/get-alls`),
+        ]);
+
+        const foundCourse = getAllCourseResponse.data?.data.items.find(
+            (item) => {
+                return item.id === courseResponse.data?.data.id;
+            }
+        );
+
+        if (foundCourse) {
+            courseResponse.data.data.isFree = foundCourse.isFree;
+        }
+
+        return courseResponse.data;
     };
 
     const { data: courseDetail } = useQuery({
@@ -205,12 +227,10 @@ const CourseDetail = (props: Props) => {
                                 <>
                                     <h1>{courseDetail.data.name}</h1>
                                     <p>
-                                        Lorem ipsum dolor sit amet, consectetur
-                                        adipisicing elit. Nisi necessitatibus ex
-                                        recusandae ducimus sed velit debitis
-                                        possimus excepturi? Suscipit non iure
-                                        qui sed. Ipsum aperiam ipsa aliquam
-                                        harum, aspernatur id.
+                                        Learn web design in 1 hour with 25+
+                                        simple-to-use rules and guidelines —
+                                        tons of amazing web design resources
+                                        included!
                                     </p>
                                     <p className={styles.detailPrice}>
                                         <span>
@@ -270,7 +290,8 @@ const CourseDetail = (props: Props) => {
                                             <CircleLoading />
                                         </Box>
                                     ) : coursePurchaseInfo?.data
-                                          .isCoursePurchased ? (
+                                          .isCoursePurchased ||
+                                      courseDetail.data.isFree ? (
                                         <Link
                                             className={styles.nextCourse}
                                             to={`/course-detail/${courseDetail?.data.id}/lesson`}

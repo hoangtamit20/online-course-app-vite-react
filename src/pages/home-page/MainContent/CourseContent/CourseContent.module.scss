@@ -13,6 +13,8 @@
         padding: 10px;
         .pic {
             width: 100%;
+            height: 200px;
+            object-fit: contain;
             display: block;
         }
         .place-img:hover {
