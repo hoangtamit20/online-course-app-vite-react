@@ -34,7 +34,7 @@ const AllCourseFillterArea = ({
     return (
         <Box className={styles.container}>
             <Box className={styles.wrapper}>
-                <Box>Search</Box>
+                <Box className={styles.title}>Search</Box>
                 <Box className={styles.searchBox}>
                     <TextField
                         id="outlined-basic"

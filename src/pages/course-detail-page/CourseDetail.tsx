@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { httpClient } from "../../utils/AxiosHttpClient";
 import { Box, Typography } from "@mui/material";
@@ -18,6 +18,7 @@ type Props = {};
 const CourseDetail = (props: Props) => {
     const params = useParams();
     const videoRef = useRef<null | HTMLVideoElement>(null);
+    const [isPurchaseInProgress, setIsPurchaseInProgress] = useState(false);
 
     const getCourseDetail = async () => {
         const reponse = await httpClient.get(
@@ -55,6 +56,7 @@ const CourseDetail = (props: Props) => {
     }
 
     async function onCoursePurchaseClick() {
+        setIsPurchaseInProgress(true);
         const orderData = await createOrderMutationAsync(params.id!);
 
         const paymentData = await httpClient.post(`/api/v1/payments/create`, {
@@ -62,6 +64,11 @@ const CourseDetail = (props: Props) => {
             requiredAmounmt: orderData.data.totalPrice,
             paymentContent: `Buy courseId ${params.id}`,
         });
+
+        const paymentUrl = paymentData.data.data?.paymentUrl;
+        if (paymentUrl) {
+            window.location.href = paymentUrl;
+        }
     }
 
     const { data: createdOrderInfo, mutateAsync: createOrderMutationAsync } =
@@ -169,6 +176,10 @@ const CourseDetail = (props: Props) => {
         };
     }, [courseDetail]);
 
+    const formatter = new Intl.NumberFormat("vi-VN", {
+        currency: "VND",
+    });
+
     console.log("courseDetail:", courseDetail);
     return (
         <>
@@ -202,7 +213,12 @@ const CourseDetail = (props: Props) => {
                                         harum, aspernatur id.
                                     </p>
                                     <p className={styles.detailPrice}>
-                                        {courseDetail.data.price}$
+                                        <span>
+                                            {formatter.format(
+                                                courseDetail.data.price
+                                            )}
+                                            <span>{" VND"}</span>
+                                        </span>
                                     </p>
                                     <Box className={styles.views}>
                                         <p className={styles.titleViews}>
@@ -249,11 +265,11 @@ const CourseDetail = (props: Props) => {
                                         English
                                     </p>
 
-                                    {isLoading ? (
+                                    {isLoading || isPurchaseInProgress ? (
                                         <Box className={styles.loadingBox}>
                                             <CircleLoading />
                                         </Box>
-                                    ) : !coursePurchaseInfo?.data
+                                    ) : coursePurchaseInfo?.data
                                           .isCoursePurchased ? (
                                         <Link
                                             className={styles.nextCourse}

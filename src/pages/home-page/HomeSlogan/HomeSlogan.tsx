@@ -4,7 +4,9 @@ import styles from "./HomeSlogan.module.scss";
 const HomeSlogan = () => {
     return (
         <Box className={styles.container}>
-            <Box style={{ width: "100%", display: "table", overflow: 'hidden', }}>
+            <Box
+                style={{ width: "100%", display: "table", overflow: "hidden" }}
+            >
                 <img
                     className={styles.imgSlogan}
                     src="https://img-c.udemycdn.com/notices/web_carousel_slide/image/4f9d4123-43ee-4f2a-b5ef-1f2ac22962f3.jpg"

@@ -25,9 +25,17 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import LessonPage from "./pages/lesson-page/LessonPage";
 import { Box } from "@mui/material";
+import PaymentReturnPage from "./pages/payment-return-page/PaymentReturnPage";
 
 // import your components here
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+        },
+        mutations: {},
+    },
+});
 
 function ProtectedRoute({ children, showToast, ...rest }) {
     const location = useLocation();
@@ -61,7 +69,7 @@ function App() {
                 <Router>
                     <Navbar />
                     <Routes>
-                        <Route path="/test" element={<SearchAppBar />} />
+                        {/* <Route path="/test" element={<SearchAppBar />} /> */}
                         <Route path="/homepage" element={<HomePage />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
@@ -84,6 +92,10 @@ function App() {
                         <Route
                             path="/register-result"
                             element={<RegisterResult />}
+                        />
+                        <Route
+                            path="/payments/return"
+                            element={<PaymentReturnPage />}
                         />
                         <Route path="/" element={<HomePage />} />
                         {/* Route for admin */}

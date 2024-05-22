@@ -18,6 +18,10 @@ interface ICourse {
 }
 
 const CourseContent = ({ course }: { course: ICourse }) => {
+    const formatter = new Intl.NumberFormat("vi-VN", {
+        currency: "VND",
+    });
+
     return (
         <Box className={styles.content}>
             <Box className={styles.wrapper}>
@@ -38,10 +42,10 @@ const CourseContent = ({ course }: { course: ICourse }) => {
 
                     <div className={styles.priceWrapper}>
                         <strong className={styles.price}>
-                            ₫{course.price}
+                            {formatter.format(course.price)}
                         </strong>
                         <span className={styles.delPrice}>
-                            <del>₫1,599,000</del>
+                            <span>VND</span>
                         </span>
                     </div>
                     <span className={styles.btn}>Bestseler</span>

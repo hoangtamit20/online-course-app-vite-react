@@ -16,9 +16,22 @@ import styles from "./Navbar.module.scss";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
-const pages = ["Products", "Pricing", "Blog"];
+const pages = [
+    {
+        name: "Home Page",
+        link: "/homepage",
+    },
+    {
+        name: "Pricing",
+        link: "/homepage",
+    },
+    {
+        name: "Blog",
+        link: "/homepage",
+    },
+];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Search = styled("div")(({ theme }) => ({
@@ -101,8 +114,7 @@ function Navbar() {
                     <Typography
                         variant="h6"
                         noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
+                        component="span"
                         sx={{
                             mr: 2,
                             display: { xs: "none", md: "flex" },
@@ -113,7 +125,16 @@ function Navbar() {
                             textDecoration: "none",
                         }}
                     >
-                        LOGO
+                        <Link
+                            to={`/homepage`}
+                            className={styles.menuLink}
+                            style={{
+                                textDecoration: "none",
+                                color: "white",
+                            }}
+                        >
+                            LOGO
+                        </Link>
                     </Typography>
 
                     <Box
@@ -152,12 +173,21 @@ function Navbar() {
                         >
                             {pages.map((page) => (
                                 <MenuItem
-                                    key={page}
+                                    key={page.name}
                                     onClick={handleCloseNavMenu}
                                 >
-                                    <Typography textAlign="center">
-                                        {page}
-                                    </Typography>
+                                    <Link
+                                        to={`${page.link}`}
+                                        className={styles.menuLink}
+                                        style={{
+                                            textDecoration: "none",
+                                            color: "black",
+                                        }}
+                                    >
+                                        <Typography textAlign="center">
+                                            {page.name}
+                                        </Typography>
+                                    </Link>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -168,8 +198,7 @@ function Navbar() {
                     <Typography
                         variant="h5"
                         noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
+                        component="span"
                         sx={{
                             mr: 2,
                             display: { xs: "flex", md: "none" },
@@ -181,7 +210,16 @@ function Navbar() {
                             textDecoration: "none",
                         }}
                     >
-                        LOGO
+                        <Link
+                            to={`/homepage`}
+                            className={styles.menuLink}
+                            style={{
+                                textDecoration: "none",
+                                color: "white",
+                            }}
+                        >
+                            LOGO
+                        </Link>
                     </Typography>
                     <Search>
                         <SearchIconWrapper>
@@ -199,13 +237,22 @@ function Navbar() {
                         }}
                     >
                         {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: "white", display: "block" }}
+                            <Link
+                                to={`${page.link}`}
+                                className={styles.menuLink}
                             >
-                                {page}
-                            </Button>
+                                <Button
+                                    key={page.name}
+                                    onClick={handleCloseNavMenu}
+                                    sx={{
+                                        my: 2,
+                                        color: "white",
+                                        display: "block",
+                                    }}
+                                >
+                                    {page.name}
+                                </Button>
+                            </Link>
                         ))}
                     </Box>
 
