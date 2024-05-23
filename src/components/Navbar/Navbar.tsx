@@ -16,7 +16,13 @@ import styles from "./Navbar.module.scss";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
-import { Link, useLocation, useParams } from "react-router-dom";
+import {
+    Link,
+    useLocation,
+    useNavigate,
+    useNavigation,
+    useParams,
+} from "react-router-dom";
 
 const pages = [
     {
@@ -32,7 +38,7 @@ const pages = [
         link: "/homepage",
     },
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Logout"];
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -80,7 +86,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function Navbar() {
     const { pathname } = useLocation();
-    if (pathname === "/login") return null;
+    const navigate = useNavigate();
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
         null
@@ -100,9 +106,16 @@ function Navbar() {
         setAnchorElNav(null);
     };
 
-    const handleCloseUserMenu = () => {
+    const handleCloseUserMenu = (setting) => {
         setAnchorElUser(null);
+        if (setting === "Logout") {
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("refreshToken");
+            navigate("/login");
+        }
     };
+
+    if (pathname === "/login") return null;
 
     return (
         <AppBar position="static" className={styles.bg}>
@@ -287,7 +300,7 @@ function Navbar() {
                             {settings.map((setting) => (
                                 <MenuItem
                                     key={setting}
-                                    onClick={handleCloseUserMenu}
+                                    onClick={() => handleCloseUserMenu(setting)}
                                 >
                                     <Typography textAlign="center">
                                         {setting}

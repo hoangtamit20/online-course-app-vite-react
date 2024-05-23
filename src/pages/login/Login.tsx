@@ -64,29 +64,36 @@ function Login() {
 
     const handleLoginWithEmailAndPassword = async (event) => {
         event.preventDefault();
-        const form = event.currentTarget;   
+        const form = event.currentTarget;
         if (form.checkValidity() === false) {
             console.log("Da click");
             event.preventDefault();
             event.stopPropagation();
         } else {
+            try {
+                const data = await mutateAsync({
+                    email: username,
+                    password: password,
+                });
 
-            const data = await mutateAsync({
-                email: username,
-                password: password,
-            });
+                console.log("data:", data);
 
-            console.log("data:", data);
+                if (data.isSuccess) {
+                    localStorage.setItem("accessToken", data.data.accessToken);
+                    localStorage.setItem(
+                        "refreshToken",
+                        data.data.refreshToken
+                    ); // Lưu refresh token vào local storage
+                    setErrors([]);
 
-            if (data.isSuccess) {
-                localStorage.setItem("accessToken", data.data.accessToken);
-                localStorage.setItem("refreshToken", data.data.refreshToken); // Lưu refresh token vào local storage
-                setErrors([]);
-
-                // navigate to homepage after user login successfully.
-                navigate("/");
-            } else {
-                setErrors(data.errors);
+                    // navigate to homepage after user login successfully.
+                    navigate("/");
+                } else {
+                    setErrors(data.errors);
+                }
+            } catch (err) {
+                console.log("err:", err);
+                if (err.response?.data) setErrors(err.response?.data.errors);
             }
             setValidated(true);
         }
@@ -128,15 +135,6 @@ function Login() {
         <Box className={styles.container}>
             <Box className={styles.loginContainer}>
                 <Box className={styles.loginWrapper}>
-                    {errors.length > 0 && (
-                        <Box className="alert alert-danger">
-                            <ul>
-                                {errors.map((error, index) => (
-                                    <li key={index}>{error}</li>
-                                ))}
-                            </ul>
-                        </Box>
-                    )}
                     <Box className={styles.formTitle}>Login</Box>
                     <Form
                         noValidate
@@ -182,6 +180,22 @@ function Login() {
                             <Link to="/reset-password" className={styles.link}>
                                 Reset password
                             </Link>
+                        </Box>
+                        <Box>
+                            {errors.length > 0 && (
+                                <Box>
+                                    <ul>
+                                        {errors.map((error, index) => (
+                                            <li
+                                                className={styles.alertMessage}
+                                                key={index}
+                                            >
+                                                {error}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </Box>
+                            )}
                         </Box>
                         <Box className={styles.submitButtonContainer}>
                             <Button
