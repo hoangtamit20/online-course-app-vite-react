@@ -11,8 +11,8 @@ const PaymentReturnPage = (props: Props) => {
     //     params[key] = value;
     // }
     const searchParams = new URLSearchParams(useLocation().search);
-    const paymentStatus = searchParams.get("data");
-    console.log("searchParams:", searchParams.get("data"));
+    const paymentStatus = searchParams.get("PaymentStatus");
+    console.log("searchParams:", searchParams.get("PaymentStatus"));
     let alertStatus: string = "";
     let alertMessage: string = "";
     switch (paymentStatus) {
